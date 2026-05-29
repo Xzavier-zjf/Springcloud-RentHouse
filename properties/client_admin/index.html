@@ -25,60 +25,87 @@
         }
 
         .wrap {
-            width: 600px;
-            margin: 100px auto;
+            width: 300px;
+            margin: 8px auto 8px;
         }
 
         .banner {
-            width: 600px;
-            height: 400px;
-            background: url(./img/5.png);
-            background-size: 600px 400px;
+            width: 300px;
+            height: 150px;
+            background: url(./img/5.png) center / 300px 150px no-repeat;
             position: relative;
+            overflow: hidden;
+            border-radius: 6px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
         }
 
         .blank-box {
             position: absolute;
-            top: 100px;
-            left: 200px;
-            width: 50px;
-            height: 50px;
-            background: #fff;
+            top: 58px;
+            left: 180px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, .72);
+            border: 2px solid rgba(255, 255, 255, .95);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, .18);
         }
 
         .block {
             position: absolute;
-            top: 100px;
+            top: 58px;
             left: 0;
-            width: 50px;
-            height: 50px;
-            background: url(./img/4.png);
-            background-size: 600px 400px;
-            background-position: -200px -100px;
-            border: 1px solid red;
+            width: 36px;
+            height: 36px;
+            background: url(./img/5.png) 0 0 / 300px 150px no-repeat;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+            box-sizing: border-box;
+            z-index: 2;
         }
 
         .move {
             position: relative;
+            height: 36px;
+            margin-top: 6px;
+            overflow: hidden;
+            border-radius: 4px;
         }
 
         .move p {
-            height: 50px;
-            line-height: 50px;
+            height: 36px;
+            line-height: 36px;
             font-size: 16px;
             color: #666;
             background: #eee;
             text-align: center;
+            margin: 0;
         }
 
         .move-block {
             position: absolute;
             left: 0;
             top: 0;
-            width: 50px;
-            height: 50px;
+            width: 36px;
+            height: 36px;
             background: #1abc9c;
             cursor: pointer;
+            z-index: 3;
+            transition: background-color .2s;
+            touch-action: none;
+        }
+
+        .move-block::before {
+            content: ">";
+            display: block;
+            line-height: 36px;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .move-block.is-success {
+            background: #42b983;
         }
         </style>
 
@@ -206,8 +233,8 @@
     layui.use('layer', function () {
         var layer = layui.layer;
     });
-    let personInfo = JSON.parse(sessionStorage.personInfo)
-    if(personInfo){
+    let personInfo = sessionStorage.personInfo ? JSON.parse(sessionStorage.personInfo) : null
+    if (personInfo) {
         window.location.replace("./page/frime.html");
     }
 </script>
