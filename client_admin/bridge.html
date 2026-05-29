@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>进入后台</title>
+</head>
+<body>
+正在进入后台...
+<script>
+  (async function () {
+    var params = new URLSearchParams(window.location.search);
+    var token = params.get("token") || "";
+    var target = params.get("target") || "/index.html";
+    var personInfo = params.get("personInfo") || "{}";
+
+    var user = {};
+    try {
+      user = JSON.parse(personInfo);
+      if (token) {
+        sessionStorage.setItem("token", token);
+      }
+      if (user && Object.keys(user).length) {
+        sessionStorage.setItem("personInfo", JSON.stringify(user));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    if (user && user.user_group) {
+      try {
+        var response = await fetch("http://127.0.0.1:7004/api/auth/get_list?user_group=" + encodeURIComponent(user.user_group), {
+          headers: {
+            "x-auth-token": token
+          }
+        });
+        var json = await response.json();
+        if (json.result && json.result.list) {
+          sessionStorage.setItem("list_data", JSON.stringify(json.result.list));
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    if (target.indexOf("/") !== 0) {
+      target = "/" + target;
+    }
+    window.location.replace(target);
+  })();
+</script>
+</body>
+</html>

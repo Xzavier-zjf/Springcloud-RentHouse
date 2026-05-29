@@ -1,0 +1,24 @@
+spring:
+  config:
+    activate:
+      on-profile: localhost
+  mvc:
+    static-path-pattern: /upload/**
+  web:
+    static-locations: file:${user.dir}/server/src/main/resources/static/,file:${user.dir}/src/main/resources/static/,classpath:/static/
+  datasource:
+    url: jdbc:mysql://localhost:3306/springcloud-renthouse?serverTimezone=Asia/Shanghai&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: ALWAYS
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      fail-on-empty-beans: false
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB

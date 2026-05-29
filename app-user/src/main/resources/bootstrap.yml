@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: app-user
+  cloud:
+    config:
+      uri: http://127.0.0.1:7000    # 配置中心服务端的URL
+      name: app-user    #使用配置中心中哪个配置文件，这里要跟git中文件名字前面一样
+      profile: localhost    #使用配置中心中哪个profile，这里使用开发环境，这里要跟git中文件名字后面一样
+  main:
+    allow-bean-definition-overriding: true #当遇到相同名字的时候，是否允许覆盖注册

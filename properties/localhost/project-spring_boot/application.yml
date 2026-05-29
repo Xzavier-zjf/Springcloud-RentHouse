@@ -1,0 +1,55 @@
+server: 
+  port: 7002
+  servlet: 
+    context-path: /api
+###服务的名字名称(该服务注册到eureka注册中心的名称)
+spring:
+  application:
+    name: app-project  #在订单系统的application.yml叫app-order
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+###服务注册到eureka注册中心的地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+    ###因为该应用为服务提供者，是eureka的一个客户端，需要注册到注册中心
+    register-with-eureka: true
+    ###是否需要从eureka上检索服务
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true #将自己的ip地址注册到Eureka服务中
+    ip-address: localhost
+    instance-id: ${server.port} #指定实例id
+    
+
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      # 全局配置
+      default:
+       #连接超时时间
+        connectTimeout: 10000
+       #读取超时时间
+        readTimeout: 10000
+      # 实例配置，feignName即@feignclient中的value，也就是被调用的服务名
+      app-customized:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: full
+resilience4j:
+  circuitbreaker:
+    instances:
+      app-user:
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+      
+logging:
+  level:
+    com.project.demo.rpc.feignClient.CustomizedGoodsRPCFeignClient: DEBUG # 将Feign接口的日志级别设置成DEBUG，因为Feign的Logger.Level只对DEBUG作出响应。

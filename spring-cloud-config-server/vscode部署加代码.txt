@@ -1,0 +1,5 @@
+第一处：
+spring-cloud-config-server\src\main\resources路径下的application.yml文件里面，在file:后面添加代码classpath:../../.
+
+第二处：
+server\src\main\java\com\project\demo\controller\base路径下的BaseController.java文件第109行代码，删除\\server，保存文件

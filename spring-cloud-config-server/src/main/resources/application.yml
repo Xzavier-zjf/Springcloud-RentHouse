@@ -1,0 +1,19 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: spring-cloud-config-server
+  #如果没有gitlab 用电脑本地的文件，需要加这句native然后再配置search-locations
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: 'file:${user.dir}/properties/,file:${user.dir}/properties/{profile}/,file:${user.dir}/properties/{profile}/{application}/,file:${user.dir}/../properties/,file:${user.dir}/../properties/{profile}/,file:${user.dir}/../properties/{profile}/{application}/'
+#        git:
+#          uri: https://github.com/xxxx/github-repo  # 配置git仓库地址
+#          search-paths: config-repo #配置仓库路径，可以配置多个，用，分割
+#          username: 111111 #访问git仓库的用户名
+#          password: 111111 #访问git仓库的用户密码
+#      label:  master

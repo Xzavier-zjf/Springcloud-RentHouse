@@ -1,0 +1,881 @@
+<!-- 新增/Add -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/diy.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        img {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<article class="sign_in">
+    <div class="warp">
+        <div class="layui-container">
+            <div class="layui-row">
+                <form class="layui-form" action="">
+                                                                                                                                                                                                            <div class="layui-form-item" id="payment_no_box">
+                                            <label class="layui-form-label">缴费号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入缴费号"
+                                                       class="layui-input" id="payment_no">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="contract_no_box">
+                                            <label class="layui-form-label">合同号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入合同号"
+                                                       class="layui-input" id="contract_no">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="house_name_box">
+                                            <label class="layui-form-label">房屋名称</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入房屋名称"
+                                                       class="layui-input" id="house_name">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="rental_user_box">
+                                            <label class="layui-form-label">出租用户</label>
+                                            <div class="layui-input-block">
+                                                <select name="interest" lay-filter="rental_user" id="rental_user">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="lessors_name_box">
+                                            <label class="layui-form-label">出租人名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入出租人名"
+                                                       class="layui-input" id="lessors_name">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="tenant_user_box">
+                                            <label class="layui-form-label">租客用户</label>
+                                            <div class="layui-input-block">
+                                                <select name="interest" lay-filter="tenant_user" id="tenant_user">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="payment_name_box">
+                                            <label class="layui-form-label">缴费名称</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入缴费名称"
+                                                       class="layui-input" id="payment_name">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="payment_amount_box">
+                                            <label class="layui-form-label">缴费金额</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入缴费金额"
+                                                       class="layui-input" id="payment_amount">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                        <div class="layui-form-item" id="payment_date_box">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">缴费日期</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="payment_date"
+                                                       placeholder="yyyy-MM-dd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                                                            
+                                                
+                        
+                                                                                    </form>
+                <div class="layui-btn-container">
+                    <a href="#" type="button" class="layui-btn layui-btn-normal login" id="submit" style="display: none">确认/Confirm</a>
+                    <a href="./table.html" target="main_self_frame" type="button"
+                       class="layui-btn layui-btn-normal login">取消/Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+<script src="../../layui/layui.js"></script>
+<script src="../../js/base.js"></script>
+<script src="../../js/index.js"></script>
+<script>
+    var BaseUrl = baseUrl()
+    let payment_information_id = location.search.substring(1)
+    layui.use(['upload', 'element', 'layer', 'laydate', 'layedit'], function () {
+        var $ = layui.jquery
+                , upload = layui.upload
+                , element = layui.element
+                , layer = layui.layer
+                , laydate = layui.laydate
+                , layedit = layui.layedit
+                , form = layui.form;
+
+        let url
+
+        let token = sessionStorage.token || null
+        let personInfo = JSON.parse(sessionStorage.personInfo)
+        let user_group = personInfo.user_group
+        let use_id = personInfo.user_id
+
+        function  $get_stamp() {
+            return new Date().getTime();
+        }
+
+        function  $get_rand(len) {
+            var rand = Math.random();
+            return Math.ceil(rand * 10 ** len);
+        }
+
+        
+            // 权限判断
+            /**
+             * 获取路径对应操作权限 鉴权
+             * @param {String} action 操作名
+             */
+            function $check_action(path1, action = "get") {
+                var o = $get_power(path1);
+                if (o && o[action] != 0 && o[action] != false) {
+                    return true;
+                }
+                return false;
+            }
+
+            /**
+             * 获取权限
+             * @param {String} path 路由路径
+             */
+            function $get_power(path) {
+                var list_data = JSON.parse(sessionStorage.list_data)
+                var list = list_data;
+                var obj;
+                for (var i = 0; i < list.length; i++) {
+                    var o = list[i];
+                    if (o.path === path) {
+                        obj = o;
+                        break;
+                    }
+                }
+                return obj;
+            }
+
+        let submit = document.querySelector('#submit')
+
+        if (   user_group == "管理员" ||$check_action('/payment_information/view', 'add') || $check_action('/payment_information/view', 'set')) {
+            submit.style.display = "block"
+        }
+
+        
+            let field = "payment_information_id";
+            let url_add = "payment_information";
+            let url_set = "payment_information";
+            let url_get_obj = "payment_information";
+            let url_upload = "payment_information"
+            let query = {
+                "payment_information_id": 0,
+            }
+
+            let form_data2 = {
+                                                        "payment_no": $get_stamp(), // 缴费号
+                                                                            "contract_no":  '', // 合同号
+                                                                            "house_name":  '', // 房屋名称
+                                                                                "rental_user": 0, // 出租用户
+                                                                            "lessors_name":  '', // 出租人名
+                                                                                "tenant_user": 0, // 租客用户
+                                                                            "payment_name":  '', // 缴费名称
+                                                                            "payment_amount":  0, // 缴费金额
+                                                                            "payment_date":  '', // 缴费日期
+                                                                                                    "payment_information_id": 0, // ID
+                                                                                            }
+
+            layui.layedit.set({
+      uploadImage: {
+        url: BaseUrl + '/api/payment_information/upload?' //接口url
+        , type: 'post' //默认post
+      }
+    });
+
+
+            var path1
+
+            function getpath() {
+                var list_data = JSON.parse(sessionStorage.list_data)
+                for (var i = 0; i < list_data.length; i++) {
+                    var o = list_data[i];
+                    if (o.path === "/payment_information/table") {
+                        path1 = o.path
+                            $get_power(o.path)
+                    }
+                }
+            }
+
+            getpath()
+
+            /**
+             * 注册时是否有显示或操作字段的权限
+             * @param {String} action 操作名
+             * @param {String} field 查询的字段
+             * @param {String} path 路径
+             */
+            function $check_register_field(action, field, path1) {
+                var o = $get_power(path1);
+                var auth;
+                if (o && o[action] != 0 && o[action] != false) {
+                    auth = o["field_" + action];
+                }
+                if (auth) {
+                    return auth.indexOf(field) !== -1;
+                }
+                return false;
+            }
+
+            /**
+             * 是否有显示或操作字段的权限
+             * @param {String} action 操作名
+             * @param {String} field 查询的字段
+             */
+            function $check_field(action, field) {
+                var o = $get_power("/payment_information/view");
+                var auth;
+                if (o && o[action] != 0 && o[action] != false) {
+                    auth = o["field_" + action];
+                }
+                if (auth) {
+                    return auth.indexOf(field) !== -1;
+                }
+                return false;
+            }
+
+            /**
+             * 获取路径对应操作权限 鉴权
+             * @param {String} action 操作名
+             */
+            function $check_exam(path1, action = "get") {
+                var o = $get_power(path1);
+                if (o) {
+                    var option = JSON.parse(o.option);
+                    if (option[action])
+                        return true
+                }
+                return false;
+            }
+
+            /**
+             * 是否有审核字段的权限
+             */
+            function $check_examine() {
+                var url = window.location.href;
+                var url_ = url.split("/")
+                var pg_url = url_[url_.length - 2]
+                let path = "/"+ pg_url + "/table"
+                var o = $get_power(path);
+                if (o){
+                    var option = JSON.parse(o.option);
+                    if (option.examine)
+                        return true
+                }
+                return false;
+            }
+
+                            if (user_group === '管理员') {
+                    $("#payment_no_box").show()
+                } else {
+                    if ($check_field('add', 'payment_no')){
+                        $("#payment_no_box").show()
+                    }else {
+                        $("#payment_no_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#contract_no_box").show()
+                } else {
+                    if ($check_field('add', 'contract_no')){
+                        $("#contract_no_box").show()
+                    }else {
+                        $("#contract_no_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#house_name_box").show()
+                } else {
+                    if ($check_field('add', 'house_name')){
+                        $("#house_name_box").show()
+                    }else {
+                        $("#house_name_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#rental_user_box").show()
+                } else {
+                    if ($check_field('add', 'rental_user')){
+                        $("#rental_user_box").show()
+                    }else {
+                        $("#rental_user_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#lessors_name_box").show()
+                } else {
+                    if ($check_field('add', 'lessors_name')){
+                        $("#lessors_name_box").show()
+                    }else {
+                        $("#lessors_name_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#tenant_user_box").show()
+                } else {
+                    if ($check_field('add', 'tenant_user')){
+                        $("#tenant_user_box").show()
+                    }else {
+                        $("#tenant_user_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#payment_name_box").show()
+                } else {
+                    if ($check_field('add', 'payment_name')){
+                        $("#payment_name_box").show()
+                    }else {
+                        $("#payment_name_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#payment_amount_box").show()
+                } else {
+                    if ($check_field('add', 'payment_amount')){
+                        $("#payment_amount_box").show()
+                    }else {
+                        $("#payment_amount_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#payment_date_box").show()
+                } else {
+                    if ($check_field('add', 'payment_date')){
+                        $("#payment_date_box").show()
+                    }else {
+                        $("#payment_date_box").hide()
+                    }
+                }
+            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+            
+                                                                                                                                                                                                                                                                                                                
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                                                // 日期选择
+                    laydate.render({
+                        elem: '#payment_date'
+                        , format: 'yyyy-MM-dd'
+                        , done: function (value) {
+                            form_data2.payment_date = value + ' 00:00:00'
+                        }
+                    });
+                
+                                            
+            
+                                            
+                                                            
+                                                            
+                                                            
+                                    async function rental_user() {
+                        var rental_user = document.querySelector("#rental_user")
+                        var op1 = document.createElement("option");
+                        op1.value = '0'
+                            rental_user.appendChild(op1)
+                        // 收集数据 长度
+                        var count
+                        // 收集数据 数组
+                        var arr = []
+                        $.ajax({
+                            url: BaseUrl + '/api/user/get_list?user_group=出租用户',
+                            type: 'GET',
+                            contentType: 'application/json; charset=UTF-8',
+                            async: false,
+                            dataType: 'json',
+                            success: function (response) {
+                                count = response.result.count
+                                arr = response.result.list
+                            }
+                        })
+                        for (var i = 0; i < arr.length; i++) {
+                            var op = document.createElement("option");
+                            // 给节点赋值
+                            op.innerHTML = arr[i].username + "--" + arr[i].nickname
+                            op.value = arr[i].user_id
+                            // 新增/Add节点
+                                rental_user.appendChild(op)
+                            layui.form.render("select");
+                        }
+                    }
+
+                    layui.form.on('select(rental_user)', function (data) {
+                        form_data2.rental_user = Number(data.elem[data.elem.selectedIndex].value);
+                    })
+                        rental_user()
+                                                            
+                                                            
+                                    async function tenant_user() {
+                        var tenant_user = document.querySelector("#tenant_user")
+                        var op1 = document.createElement("option");
+                        op1.value = '0'
+                            tenant_user.appendChild(op1)
+                        // 收集数据 长度
+                        var count
+                        // 收集数据 数组
+                        var arr = []
+                        $.ajax({
+                            url: BaseUrl + '/api/user/get_list?user_group=承租用户',
+                            type: 'GET',
+                            contentType: 'application/json; charset=UTF-8',
+                            async: false,
+                            dataType: 'json',
+                            success: function (response) {
+                                count = response.result.count
+                                arr = response.result.list
+                            }
+                        })
+                        for (var i = 0; i < arr.length; i++) {
+                            var op = document.createElement("option");
+                            // 给节点赋值
+                            op.innerHTML = arr[i].username + "--" + arr[i].nickname
+                            op.value = arr[i].user_id
+                            // 新增/Add节点
+                                tenant_user.appendChild(op)
+                            layui.form.render("select");
+                        }
+                    }
+
+                    layui.form.on('select(tenant_user)', function (data) {
+                        form_data2.tenant_user = Number(data.elem[data.elem.selectedIndex].value);
+                    })
+                        tenant_user()
+                                                            
+                                                            
+                                                            
+                                                    
+                                                //文本
+                    let payment_no = document.querySelector("#payment_no")
+                        payment_no.onkeyup = function (event) {
+                        form_data2.payment_no = event.target.value
+                    }
+                    //文本
+                                                                                                                //文本
+                    let contract_no = document.querySelector("#contract_no")
+                        contract_no.onkeyup = function (event) {
+                        form_data2.contract_no = event.target.value
+                    }
+                    //文本
+                                                                                                                //文本
+                    let house_name = document.querySelector("#house_name")
+                        house_name.onkeyup = function (event) {
+                        form_data2.house_name = event.target.value
+                    }
+                    //文本
+                                                                                                                                                                                            //文本
+                    let lessors_name = document.querySelector("#lessors_name")
+                        lessors_name.onkeyup = function (event) {
+                        form_data2.lessors_name = event.target.value
+                    }
+                    //文本
+                                                                                                                                                                                            //文本
+                    let payment_name = document.querySelector("#payment_name")
+                        payment_name.onkeyup = function (event) {
+                        form_data2.payment_name = event.target.value
+                    }
+                    //文本
+                                                                                                                                //数字
+                    let payment_amount = document.querySelector("#payment_amount")
+                        payment_amount.onkeyup = function (event) {
+                        form_data2.payment_amount = Number(event.target.value)
+                    }
+                    //数字
+                                                                                                                                                                                                                    payment_no.value = form_data2.payment_no
+                        $("#payment_no").attr("disabled", "disabled");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    var data = sessionStorage.data || ''
+            if (data !== '') {
+                var data2 = JSON.parse(data)
+                Object.keys(form_data2).forEach(key => {
+                    Object.keys(data2).forEach(dbKey => {
+                        if (key === dbKey) {
+                            $('#' + key).val(data2[key])
+                            form_data2[key] = data2[key]
+                            $('#' + key).attr('disabled', 'disabled')
+                                                            
+                                                            
+                                                            
+                                                                                                for (let key in form_data2) {
+                                        if (key == 'rental_user') {
+                                            let alls = document.querySelector('#rental_user').querySelectorAll('option')
+                                            let test = form_data2[key]
+                                            for (let i = 0; i < alls.length; i++) {
+                                                layui.form.render("select");
+                                                if (alls[i].value == test) {
+                                                    alls[i].selected = true
+                                                    form_data2.rental_user = alls[i].value
+                                                    layui.form.render("select");
+                                                }
+                                            }
+                                        }
+                                    }
+                                
+                                                            
+                                                                                                for (let key in form_data2) {
+                                        if (key == 'tenant_user') {
+                                            let alls = document.querySelector('#tenant_user').querySelectorAll('option')
+                                            let test = form_data2[key]
+                                            for (let i = 0; i < alls.length; i++) {
+                                                layui.form.render("select");
+                                                if (alls[i].value == test) {
+                                                    alls[i].selected = true
+                                                    form_data2.tenant_user = alls[i].value
+                                                    layui.form.render("select");
+                                                }
+                                            }
+                                        }
+                                    }
+                                
+                                                            
+                                                            
+                                                            
+                                                    }
+                    })
+                })
+                sessionStorage.removeItem("data");
+            }
+                                                                                                                                                                                                                                                                                                                                                            
+
+            if (payment_information_id !== '') {
+                async function axios_get_3() {
+                    const {data: rese} = await axios.get(BaseUrl + '/api/payment_information/get_obj', {
+                        params: {
+                                payment_information_id: payment_information_id
+                        }, headers: {
+                            'x-auth-token': token
+                        }
+                    })
+
+                    let data = rese.result.obj
+                    Object.keys(form_data2).forEach((key) => {
+                        form_data2[key] = data[key];
+                        $("#"+key).val(form_data2[key])
+                    });
+
+                    
+
+                                            
+                                            
+                                            
+                                                                        for (let key in data) {
+                                if (key == 'rental_user') {
+                                    let alls = document.querySelector('#rental_user').querySelectorAll('option')
+                                    let test = data[key]
+                                    for (let i = 0; i < alls.length; i++) {
+                                        layui.form.render("select");
+                                        if (alls[i].value == test) {
+                                            alls[i].selected = true
+                                            form_data2.rental_user = alls[i].value
+                                            layui.form.render("select");
+                                        }
+                                    }
+                                }
+                            }
+                        
+                                            
+                                                                        for (let key in data) {
+                                if (key == 'tenant_user') {
+                                    let alls = document.querySelector('#tenant_user').querySelectorAll('option')
+                                    let test = data[key]
+                                    for (let i = 0; i < alls.length; i++) {
+                                        layui.form.render("select");
+                                        if (alls[i].value == test) {
+                                            alls[i].selected = true
+                                            form_data2.tenant_user = alls[i].value
+                                            layui.form.render("select");
+                                        }
+                                    }
+                                }
+                            }
+                        
+                                            
+                                            
+                                            
+                    
+                                            if (user_group === '管理员') {
+                            $("#payment_no_box").show()
+                        } else {
+                            if ($check_field('set', 'payment_no') || $check_field('get', 'payment_no')){
+                                $("#payment_no_box").show()
+                            }else {
+                                $("#payment_no_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#contract_no_box").show()
+                        } else {
+                            if ($check_field('set', 'contract_no') || $check_field('get', 'contract_no')){
+                                $("#contract_no_box").show()
+                            }else {
+                                $("#contract_no_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#house_name_box").show()
+                        } else {
+                            if ($check_field('set', 'house_name') || $check_field('get', 'house_name')){
+                                $("#house_name_box").show()
+                            }else {
+                                $("#house_name_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#rental_user_box").show()
+                        } else {
+                            if ($check_field('set', 'rental_user') || $check_field('get', 'rental_user')){
+                                $("#rental_user_box").show()
+                            }else {
+                                $("#rental_user_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#lessors_name_box").show()
+                        } else {
+                            if ($check_field('set', 'lessors_name') || $check_field('get', 'lessors_name')){
+                                $("#lessors_name_box").show()
+                            }else {
+                                $("#lessors_name_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#tenant_user_box").show()
+                        } else {
+                            if ($check_field('set', 'tenant_user') || $check_field('get', 'tenant_user')){
+                                $("#tenant_user_box").show()
+                            }else {
+                                $("#tenant_user_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#payment_name_box").show()
+                        } else {
+                            if ($check_field('set', 'payment_name') || $check_field('get', 'payment_name')){
+                                $("#payment_name_box").show()
+                            }else {
+                                $("#payment_name_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#payment_amount_box").show()
+                        } else {
+                            if ($check_field('set', 'payment_amount') || $check_field('get', 'payment_amount')){
+                                $("#payment_amount_box").show()
+                            }else {
+                                $("#payment_amount_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#payment_date_box").show()
+                        } else {
+                            if ($check_field('set', 'payment_date') || $check_field('get', 'payment_date')){
+                                $("#payment_date_box").show()
+                            }else {
+                                $("#payment_date_box").hide()
+                            }
+                        }
+                    
+                    // Array.prototype.slice.call(document.getElementsByTagName('input')).map(i => i.disabled = true)
+                    // Array.prototype.slice.call(document.getElementsByTagName('select')).map(i => i.disabled = true)
+                    // Array.prototype.slice.call(document.getElementsByTagName('textarea')).map(i => i.disabled = true)
+                                                                        //文本
+                                payment_no.value = form_data2.payment_no
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'payment_no')) || (!form_data2['payment_information_id'] && $check_field('add', 'payment_no'))) {
+                            }else {
+                                $("#payment_no").attr("disabled", true);
+                                $("#payment_no > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                contract_no.value = form_data2.contract_no
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'contract_no')) || (!form_data2['payment_information_id'] && $check_field('add', 'contract_no'))) {
+                            }else {
+                                $("#contract_no").attr("disabled", true);
+                                $("#contract_no > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                house_name.value = form_data2.house_name
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'house_name')) || (!form_data2['payment_information_id'] && $check_field('add', 'house_name'))) {
+                            }else {
+                                $("#house_name").attr("disabled", true);
+                                $("#house_name > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'rental_user')) || (!form_data2['payment_information_id'] && $check_field('add', 'rental_user'))) {
+                            }else {
+                                $("#rental_user").attr("disabled", true);
+                                $("#rental_user > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                lessors_name.value = form_data2.lessors_name
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'lessors_name')) || (!form_data2['payment_information_id'] && $check_field('add', 'lessors_name'))) {
+                            }else {
+                                $("#lessors_name").attr("disabled", true);
+                                $("#lessors_name > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'tenant_user')) || (!form_data2['payment_information_id'] && $check_field('add', 'tenant_user'))) {
+                            }else {
+                                $("#tenant_user").attr("disabled", true);
+                                $("#tenant_user > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                payment_name.value = form_data2.payment_name
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'payment_name')) || (!form_data2['payment_information_id'] && $check_field('add', 'payment_name'))) {
+                            }else {
+                                $("#payment_name").attr("disabled", true);
+                                $("#payment_name > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                        //数字
+                                payment_amount.value = form_data2.payment_amount
+                            //数字
+                                                
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'payment_amount')) || (!form_data2['payment_information_id'] && $check_field('add', 'payment_amount'))) {
+                            }else {
+                                $("#payment_amount").attr("disabled", true);
+                                $("#payment_amount > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['payment_information_id'] && $check_field('set', 'payment_date')) || (!form_data2['payment_information_id'] && $check_field('add', 'payment_date'))) {
+                            }else {
+                                $("#payment_date").attr("disabled", true);
+                                $("#payment_date > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            payment_date.value = layui.util.toDateString(form_data2.payment_date, "yyyy-MM-dd")
+                                                                                            layui.form.render("select");
+                }
+                axios_get_3()
+            }
+
+            submit.onclick = async function () {
+                try {
+                                                                                                                                                    //文本
+                            form_data2.payment_no = payment_no.value
+                            //文本
+                                                                                                                                                                        //文本
+                            form_data2.contract_no = contract_no.value
+                            //文本
+                                                                                                                                                                        //文本
+                            form_data2.house_name = house_name.value
+                            //文本
+                                                                                                                                                                                                                                                                                                                            //文本
+                            form_data2.lessors_name = lessors_name.value
+                            //文本
+                                                                                                                                                                                                                                                                                                                            //文本
+                            form_data2.payment_name = payment_name.value
+                            //文本
+                                                                                                                                                                        //数字
+                            form_data2.payment_amount = Number(payment_amount.value)
+                            //数字
+                                                                                                                                form_data2.payment_date = layui.util.toDateString(form_data2.payment_date, "yyyy-MM-dd")
+                                                                                                                } catch (err) {
+                    console.log(err)
+                }
+                                                
+                                                
+                let customize_field = []
+                                                            customize_field.push({"field_name": "缴费号", "field_value": form_data2.payment_no});
+                                                                                customize_field.push({"field_name": "合同号", "field_value": form_data2.contract_no});
+                                                                                customize_field.push({"field_name": "房屋名称", "field_value": form_data2.house_name});
+                                                                                customize_field.push({"field_name": "出租用户", "field_value": form_data2.rental_user});
+                                                                                customize_field.push({"field_name": "出租人名", "field_value": form_data2.lessors_name});
+                                                                                customize_field.push({"field_name": "租客用户", "field_value": form_data2.tenant_user});
+                                                                                customize_field.push({"field_name": "缴费名称", "field_value": form_data2.payment_name});
+                                                                                customize_field.push({"field_name": "缴费金额", "field_value": form_data2.payment_amount});
+                                                                                customize_field.push({
+                            "field_name": "缴费日期",
+                            "field_value": form_data2.payment_date,
+                            "type": "date"
+                        });
+                                    
+                
+                if (payment_information_id == '') {
+                                        console.log("新增/Add")
+                    const {data: res} = await axios.post(BaseUrl + '/api/payment_information/add?',
+                            form_data2, {
+                                headers: {
+                                    'x-auth-token': token,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                                        if (res.result == 1) {
+                        layer.msg('确认/Confirm完毕');
+                        setTimeout(function () {
+                            window.location.replace("./table.html");
+                        }, 1000)
+                    }else {
+              layer.msg(res.error.message);
+            }
+                                    } else {
+                                        console.log("详情/Details")
+                    
+                    const {data: res} = await axios.post(BaseUrl + '/api/payment_information/set?payment_information_id=' + payment_information_id,
+                            form_data2, {
+                                headers: {
+                                    'x-auth-token': token,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                    if (res.result == 1) {
+                        layer.msg('确认/Confirm完毕');
+                        setTimeout(function () {
+                            window.location.replace("./table.html");
+                        }, 1000)
+                    }else {
+              layer.msg(res.error.message);
+            }
+                }
+            }
+        
+    })
+    ;
+</script>
+
+</html>

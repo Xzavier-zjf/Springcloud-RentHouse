@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en" class="register">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/diy.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+<article class="sign_in">
+    <div class="warp">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div>
+            <span>
+              <h1>注册/Register</h1>
+            </span>
+                </div>
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                   placeholder="请输入账号"
+                                   class="layui-input" id="username">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="password" name="password" placeholder="5-16个字符" autocomplete="off"
+                                   class="layui-input"
+                                   id="password">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">确认密码</label>
+                        <div class="layui-input-block">
+                            <input type="password" name="password" placeholder="5-16个字符" autocomplete="off"
+                                   class="layui-input"
+                                   id="confirm_password">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">昵称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                   placeholder="请输入昵称"
+                                   class="layui-input" id="nickname">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱：</label>
+                        <div class="layui-input-block">
+                            <input type="email" name="title" lay-verify="title" autocomplete="off"
+                                   placeholder="例:test@.com"
+                                   class="layui-input" id="email">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">手机号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                   placeholder="例:18315652656"
+                                   class="layui-input" id="phone">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">身份</label>
+                        <div class="layui-input-block">
+                            <select name="interest" id="user_group" lay-filter="user_group">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+
+                                                                        <div id="rental_user" class="test1 diy_sf" style="display: none">
+                                                                                                                                                        <div class="layui-form-item">
+                                                <label class="layui-form-label">出租人名</label>
+                                                <div class="layui-input-block">
+                                                    <input type="text" name="title" lay-verify="title"
+                                                           autocomplete="off" placeholder="请输入出租人名"
+                                                           class="layui-input" id="lessors_name">
+                                                </div>
+                                            </div>
+                                                                                                                                                                                                                                    <div class="layui-form-item">
+                                                <label class="layui-form-label">性别</label>
+                                                <div class="layui-input-block">
+                                                    <select name="interest" id="gender" lay-filter="gender">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                </form>
+                <div class="layui-btn-container">
+                    <a href="#" type="button" class="layui-btn layui-btn-normal" id="enroll">注册/Register</a>
+                    <a href="../index.html" type="button" class="layui-btn layui-btn-normal">返回/Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script src="../js/index.js"></script>
+<script src="../js/base.js"></script>
+<script>
+    // layui模块导入
+    var BaseUrl = baseUrl()
+    layui.use(['element', 'layer', 'util', 'jquery'], function () {
+        var element = layui.element
+                , layer = layui.layer
+                , util = layui.util
+                , table = layui.table
+                , upload = layui.upload
+                , laydate = layui.laydate
+                , layedit = layui.layedit
+                , form = layui.form
+                , $ = layui.$;
+
+        let form1 = {
+            username: "",
+            password: "",
+            nickname: "",
+            email: "",
+            phone: "",
+            user_group: ""
+        }
+
+        let from_data = {}
+
+        // 获取用户单选框数据
+        async function enroll_select() {
+            let choose = [];
+            const {data: res} = await axios.get(BaseUrl + '/api/user_group/get_list?register_min=1&register_max=2')
+            let info = res;
+            let chooser = info.result.list;
+            for (let i = 0; i < chooser.length; i++) {
+                // 拿到单选框的父级节点
+                var select = document.getElementById('user_group');
+                var op = document.createElement("option");
+                op.setAttribute('source_table', chooser[i].source_table)
+                op.innerHTML = chooser[i].name
+                op.value = i + 1
+                // 新增/Add节点
+                select.appendChild(op)
+                layui.form.render("select");
+            }
+        }
+
+        enroll_select();
+
+
+        let username = document.getElementById("username")
+        let password = document.getElementById("password")
+        let nickname = document.getElementById("nickname")
+        let email = document.getElementById("email")
+        let phone = document.getElementById("phone")
+        let enroll = document.getElementById("enroll")
+
+
+
+
+                                    let test1 = document.querySelector('.test1')
+                                                                                                                                                                                                                            
+        let num = null
+        let source_table = null
+        let token = null
+
+        // 下拉框的显示隐藏
+        layui.form.on('select(user_group)', function (data) {
+            from_data = {}
+            let text = data.elem[data.elem.selectedIndex].text
+            form1['user_group'] = text
+            source_table = $(data.elem).find("option:selected").attr("source_table")
+            num = data.value
+            console.log(data.value)
+            let item = document.querySelectorAll('.diy_sf')
+
+            if (item.length == 1) {
+                if (data.value == 1) {
+                    item[0].style.display = 'block'
+                }else {
+                    item[0].style.display = 'none'
+                }
+            }
+            if (item.length == 2) {
+                if (data.value == 1) {
+                    item[0].style.display = 'block'
+                    item[1].style.display = 'none'
+                } else if (data.value == 2) {
+                    item[0].style.display = 'none'
+                    item[1].style.display = 'block'
+                } else{
+                    item[0].style.display = 'none'
+                    item[1].style.display = 'none'
+                }
+            }
+            if (item.length == 3) {
+                if (data.value == 1) {
+                    item[0].style.display = 'block'
+                    item[1].style.display = 'none'
+                    item[2].style.display = 'none'
+                } else if (data.value == 2) {
+                    item[0].style.display = 'none'
+                    item[1].style.display = 'block'
+                    item[2].style.display = 'none'
+                }else if (data.value == 3) {
+                    item[0].style.display = 'none'
+                    item[1].style.display = 'none'
+                    item[2].style.display = 'block'
+                }else{
+                    item[0].style.display = 'none'
+                    item[1].style.display = 'none'
+                    item[2].style.display = 'none'
+                }
+            }
+
+        });
+
+        // 数据
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                    var list_gender = ['男','女']
+
+                            async function gender(list) {
+                                var gender = document.querySelector("#gender")
+                                var op1 = document.createElement("option");
+                                op1.value = '0'
+                                    gender.appendChild(op1)
+                                // 收集数据 长度
+                                var count
+                                // 收集数据 数组
+                                var arr = []
+                                arr = list
+                                for (var i = 0; i < arr.length; i++) {
+                                    // 创建节点
+                                    var op = document.createElement("option");
+                                    // 给节点赋值
+                                    op.innerHTML = arr[i]
+                                    op.value = arr[i]
+                                    // 新增/Add节点
+                                        gender.appendChild(op)
+                                    layui.form.render("select");
+                                }
+                            }
+
+                                gender(list_gender)
+                            layui.form.on('select(gender)', function (data) {
+                                from_data['gender'] = data.elem[data.elem.selectedIndex].text;
+                            })
+
+
+                                                                                                                                                                                                                                                                                        
+        enroll.onclick = async function () {
+            form1['username'] = username.value;
+            form1['password'] = password.value;
+            form1['nickname'] = nickname.value;
+            form1['email'] = email.value;
+            form1['phone'] = phone.value;
+
+
+            // 正则判断
+            var email_regular = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            var phone_regular = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+
+            // 表单验证
+            if (!username.value) {
+                layer.msg('账号不能为空');
+            } else if (username.value.length > 16 || username.value.length < 5) {
+                layer.msg('账号长度应为5到16个字符之间');
+            } else if (!password.value) {
+                layer.msg('密码不能为空');
+            } else if (password.value.length > 16 || password.value.length < 5) {
+                layer.msg('密码长度应为5到16个字符之间');
+            } else if (nickname.value && nickname.value.length > 12 || nickname.value.length < 2) {
+                layer.msg('昵称长度应为2个字符到12个字符之间');
+            } else if (email.value && !email_regular.test(email.value)) {
+                layer.msg('请输入正确的邮箱地址 例：test@test.com!');
+            } else if (phone.value && !phone_regular.test(phone.value)) {
+                layer.msg('请输入正确的手机号码 例：18955552312!');
+            } else if (password.value != confirm_password.value) {
+                layer.msg('确认密码与密码不一致！');
+            } else if (!form1.user_group) {
+                layer.msg('请选择用户组!');
+            } else if (form1.user_group) {
+               
+                                    async function submit1() {
+                                                                                                                                                                let lessors_name = document.querySelector('#lessors_name')
+                                        from_data['lessors_name'] = lessors_name.value
+                                                                                                                                                                                                            let gender = document.querySelector('#gender')
+                                        from_data['gender'] = gender.value
+                                                                                                                        
+                        if (form1.user_group === "出租用户") {
+                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/rental_user/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "出租用户") {
+                         submit1()
+                       
+                    }
+                                    async function submit2() {
+                        
+                        if (form1.user_group === "承租用户") {
+                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/tenant_user/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "承租用户") {
+                         submit2()
+                       
+                    }
+                                    async function submit3() {
+                        
+                        if (form1.user_group === "房屋") {
+                                                                                                if (!from_data.house_no) {
+                                        layer.msg("房屋编号不能为空!");
+                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/house_information/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "房屋") {
+                         submit3()
+                       
+                    }
+                                    async function submit4() {
+                        
+                        if (form1.user_group === "看房申请") {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/housing_application/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "看房申请") {
+                         submit4()
+                       
+                    }
+                                    async function submit5() {
+                        
+                        if (form1.user_group === "租赁申请") {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/lease_application/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "租赁申请") {
+                         submit5()
+                       
+                    }
+                                    async function submit6() {
+                        
+                        if (form1.user_group === "合同") {
+                                                                                                if (!from_data.contract_no) {
+                                        layer.msg("合同号不能为空!");
+                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/contract_information/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "合同") {
+                         submit6()
+                       
+                    }
+                                    async function submit7() {
+                        
+                        if (form1.user_group === "缴费") {
+                                                                                                if (!from_data.payment_no) {
+                                        layer.msg("缴费号不能为空!");
+                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/payment_information/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "缴费") {
+                         submit7()
+                       
+                    }
+                                    async function submit8() {
+                        
+                        if (form1.user_group === "退租申请") {
+                                                                                                if (!from_data.contract_no) {
+                                        layer.msg("合同号不能为空!");
+                                    } else {
+                                        const {data: res} = await axios.get(BaseUrl + '/api/rent_out_application/count', {
+                                            params: {
+                                                    contract_no: from_data.contract_no
+                                            }
+                                        })
+                                        if (res.result == 1) {
+                                            layer.msg("合同号已存在!");
+                                        }
+                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/rent_out_application/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "退租申请") {
+                         submit8()
+                       
+                    }
+                                    async function submit9() {
+                        
+                        if (form1.user_group === "留言") {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/message_message/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "留言") {
+                         submit9()
+                       
+                    }
+                                    async function submit10() {
+                        
+                        if (form1.user_group === "房屋评价") {
+                                                                                                if (!from_data.contract_no) {
+                                        layer.msg("合同号不能为空!");
+                                    } else {
+                                        const {data: res} = await axios.get(BaseUrl + '/api/housing_evaluation/count', {
+                                            params: {
+                                                    contract_no: from_data.contract_no
+                                            }
+                                        })
+                                        if (res.result == 1) {
+                                            layer.msg("合同号已存在!");
+                                        }
+                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/housing_evaluation/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "房屋评价") {
+                         submit10()
+                       
+                    }
+                                    async function submit11() {
+                        
+                        if (form1.user_group === "房屋类型") {
+                                                                                                                }
+
+                        const {data: res} = await axios.post(BaseUrl + '/api/user/register?',
+                                form1
+                        )
+                        if (from_data) {
+                            Object.keys(from_data).forEach(item => {
+                                if (from_data[item] === '') delete from_data[item]
+                                if (from_data[item] === null) delete from_data[item]
+                            })
+
+                            const {data: res2} = await axios.get(BaseUrl + '/api/user/get_obj', {
+                                params: {
+                                    username: form1.username,
+                                    nickname: form1.nickname,
+                                    user_group: form1.user_group
+                                }
+                            })
+
+                            let user_id = res2.result.obj.user_id
+                            from_data['user_id'] = user_id
+                            if (user_id) {
+                                const {data: resss} = await axios.post(BaseUrl + `/api/house_type/add?`,
+                                        from_data, {
+                                            headers: {
+                                                'x-auth-token': token,
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                if (resss.result == 1) {
+                                    layer.msg('注册/Register成功');
+                                    setTimeout(() => {
+                                        window.location.replace("../index.html");
+                                    }, 1000);
+                                }
+                            }
+                        }
+                    }
+
+                    if (form1.user_group === "房屋类型") {
+                         submit11()
+                       
+                    }
+                            }
+        }
+    })
+
+    function getRandomImg() {
+        const num = Math.ceil(Math.random() * 5) + '.png'
+        return ('../img/' + num)
+    }
+</script>
+
+</html>

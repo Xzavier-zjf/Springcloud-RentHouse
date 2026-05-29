@@ -1,0 +1,1051 @@
+<!-- 新增/Add -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/diy.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        img {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<article class="sign_in">
+    <div class="warp">
+        <div class="layui-container">
+            <div class="layui-row">
+                <form class="layui-form" action="">
+                                                                                                                                                                                                            <div class="layui-form-item" id="house_no_box">
+                                            <label class="layui-form-label">房屋编号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入房屋编号"
+                                                       class="layui-input" id="house_no">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="house_name_box">
+                                            <label class="layui-form-label">房屋名称</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入房屋名称"
+                                                       class="layui-input" id="house_name">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="deposit_box">
+                                            <label class="layui-form-label">押金</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入押金"
+                                                       class="layui-input" id="deposit">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="rent_box">
+                                            <label class="layui-form-label">租金</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入租金"
+                                                       class="layui-input" id="rent">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="hall_box">
+                                            <label class="layui-form-label">厅室</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入厅室"
+                                                       class="layui-input" id="hall">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="detailed_address_box">
+                                            <label class="layui-form-label">详细地址</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入详细地址"
+                                                       class="layui-input" id="detailed_address">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="rental_user_box">
+                                            <label class="layui-form-label">出租用户</label>
+                                            <div class="layui-input-block">
+                                                <select name="interest" lay-filter="rental_user" id="rental_user">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                <div class="layui-form-item" id="lessors_name_box">
+                                            <label class="layui-form-label">出租人名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入出租人名"
+                                                       class="layui-input" id="lessors_name">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                                                                                                            <div class="layui-form-item" id="tenant_user_box">
+                                                <label class="layui-form-label">租客用户</label>
+                                                <div class="layui-input-block">
+                                                    <select name="interest" lay-filter="tenant_user"
+                                                            id="tenant_user">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                                                                                                                                                                                                                                                                        <div class="layui-form-item" id="remarks_box">
+                                            <label class="layui-form-label">看房备注</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                                       placeholder="请输入看房备注"
+                                                       class="layui-input" id="remarks">
+                                            </div>
+                                        </div>
+                                                                                                                                                                                                                        <div class="layui-form-item" id="date_of_viewing_box">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">看房日期</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" id="date_of_viewing"
+                                                       placeholder="yyyy-MM-dd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                                                                                        <div class="layui-form-item">
+                                <label class="layui-form-label">审核状态</label>
+                                <div class="layui-input-block">
+                                    <select name="interest" lay-filter="examine_state" id="examine_state">
+                                        <option value=""></option>
+                                        <option value="0">未审核</option>
+                                        <option value="1">已通过</option>
+                                        <option value="2">未通过</option>
+                                    </select>
+                                </div>
+                            </div>
+                        
+                                                    <div class="layui-form-item">
+                                <label class="layui-form-label">审核回复</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" lay-verify="title" autocomplete="off"
+                                           placeholder="请输入审核回复"
+                                           class="layui-input" id="examine_reply">
+                                </div>
+                            </div>
+                                                
+                        
+                                                                                    </form>
+                <div class="layui-btn-container">
+                    <a href="#" type="button" class="layui-btn layui-btn-normal login" id="submit" style="display: none">确认/Confirm</a>
+                    <a href="./table.html" target="main_self_frame" type="button"
+                       class="layui-btn layui-btn-normal login">取消/Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+<script src="../../layui/layui.js"></script>
+<script src="../../js/base.js"></script>
+<script src="../../js/index.js"></script>
+<script>
+    var BaseUrl = baseUrl()
+    let housing_application_id = location.search.substring(1)
+    layui.use(['upload', 'element', 'layer', 'laydate', 'layedit'], function () {
+        var $ = layui.jquery
+                , upload = layui.upload
+                , element = layui.element
+                , layer = layui.layer
+                , laydate = layui.laydate
+                , layedit = layui.layedit
+                , form = layui.form;
+
+        let url
+
+        let token = sessionStorage.token || null
+        let personInfo = JSON.parse(sessionStorage.personInfo)
+        let user_group = personInfo.user_group
+        let use_id = personInfo.user_id
+
+        function  $get_stamp() {
+            return new Date().getTime();
+        }
+
+        function  $get_rand(len) {
+            var rand = Math.random();
+            return Math.ceil(rand * 10 ** len);
+        }
+
+        
+            // 权限判断
+            /**
+             * 获取路径对应操作权限 鉴权
+             * @param {String} action 操作名
+             */
+            function $check_action(path1, action = "get") {
+                var o = $get_power(path1);
+                if (o && o[action] != 0 && o[action] != false) {
+                    return true;
+                }
+                return false;
+            }
+
+            /**
+             * 获取权限
+             * @param {String} path 路由路径
+             */
+            function $get_power(path) {
+                var list_data = JSON.parse(sessionStorage.list_data)
+                var list = list_data;
+                var obj;
+                for (var i = 0; i < list.length; i++) {
+                    var o = list[i];
+                    if (o.path === path) {
+                        obj = o;
+                        break;
+                    }
+                }
+                return obj;
+            }
+
+        let submit = document.querySelector('#submit')
+
+        if (   user_group == "管理员" ||$check_action('/housing_application/view', 'add') || $check_action('/housing_application/view', 'set')) {
+            submit.style.display = "block"
+        }
+
+        
+            let field = "housing_application_id";
+            let url_add = "housing_application";
+            let url_set = "housing_application";
+            let url_get_obj = "housing_application";
+            let url_upload = "housing_application"
+            let query = {
+                "housing_application_id": 0,
+            }
+
+            let form_data2 = {
+                                                        "house_no":  '', // 房屋编号
+                                                                            "house_name":  '', // 房屋名称
+                                                                            "deposit":  0, // 押金
+                                                                            "rent":  0, // 租金
+                                                                            "hall":  '', // 厅室
+                                                                            "detailed_address":  '', // 详细地址
+                                                                                "rental_user": 0, // 出租用户
+                                                                            "lessors_name":  '', // 出租人名
+                                                                                "tenant_user": 0, // 租客用户
+                                                                            "remarks":  '', // 看房备注
+                                                                            "date_of_viewing":  '', // 看房日期
+                                                                        "examine_state": "未审核",
+                                                    "examine_reply": "",
+                                                "housing_application_id": 0, // ID
+                                                                                            }
+
+            layui.layedit.set({
+      uploadImage: {
+        url: BaseUrl + '/api/housing_application/upload?' //接口url
+        , type: 'post' //默认post
+      }
+    });
+
+
+            var path1
+
+            function getpath() {
+                var list_data = JSON.parse(sessionStorage.list_data)
+                for (var i = 0; i < list_data.length; i++) {
+                    var o = list_data[i];
+                    if (o.path === "/housing_application/table") {
+                        path1 = o.path
+                            $get_power(o.path)
+                    }
+                }
+            }
+
+            getpath()
+
+            /**
+             * 注册时是否有显示或操作字段的权限
+             * @param {String} action 操作名
+             * @param {String} field 查询的字段
+             * @param {String} path 路径
+             */
+            function $check_register_field(action, field, path1) {
+                var o = $get_power(path1);
+                var auth;
+                if (o && o[action] != 0 && o[action] != false) {
+                    auth = o["field_" + action];
+                }
+                if (auth) {
+                    return auth.indexOf(field) !== -1;
+                }
+                return false;
+            }
+
+            /**
+             * 是否有显示或操作字段的权限
+             * @param {String} action 操作名
+             * @param {String} field 查询的字段
+             */
+            function $check_field(action, field) {
+                var o = $get_power("/housing_application/view");
+                var auth;
+                if (o && o[action] != 0 && o[action] != false) {
+                    auth = o["field_" + action];
+                }
+                if (auth) {
+                    return auth.indexOf(field) !== -1;
+                }
+                return false;
+            }
+
+            /**
+             * 获取路径对应操作权限 鉴权
+             * @param {String} action 操作名
+             */
+            function $check_exam(path1, action = "get") {
+                var o = $get_power(path1);
+                if (o) {
+                    var option = JSON.parse(o.option);
+                    if (option[action])
+                        return true
+                }
+                return false;
+            }
+
+            /**
+             * 是否有审核字段的权限
+             */
+            function $check_examine() {
+                var url = window.location.href;
+                var url_ = url.split("/")
+                var pg_url = url_[url_.length - 2]
+                let path = "/"+ pg_url + "/table"
+                var o = $get_power(path);
+                if (o){
+                    var option = JSON.parse(o.option);
+                    if (option.examine)
+                        return true
+                }
+                return false;
+            }
+
+                            if (user_group === '管理员') {
+                    $("#house_no_box").show()
+                } else {
+                    if ($check_field('add', 'house_no')){
+                        $("#house_no_box").show()
+                    }else {
+                        $("#house_no_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#house_name_box").show()
+                } else {
+                    if ($check_field('add', 'house_name')){
+                        $("#house_name_box").show()
+                    }else {
+                        $("#house_name_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#deposit_box").show()
+                } else {
+                    if ($check_field('add', 'deposit')){
+                        $("#deposit_box").show()
+                    }else {
+                        $("#deposit_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#rent_box").show()
+                } else {
+                    if ($check_field('add', 'rent')){
+                        $("#rent_box").show()
+                    }else {
+                        $("#rent_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#hall_box").show()
+                } else {
+                    if ($check_field('add', 'hall')){
+                        $("#hall_box").show()
+                    }else {
+                        $("#hall_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#detailed_address_box").show()
+                } else {
+                    if ($check_field('add', 'detailed_address')){
+                        $("#detailed_address_box").show()
+                    }else {
+                        $("#detailed_address_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#rental_user_box").show()
+                } else {
+                    if ($check_field('add', 'rental_user')){
+                        $("#rental_user_box").show()
+                    }else {
+                        $("#rental_user_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#lessors_name_box").show()
+                } else {
+                    if ($check_field('add', 'lessors_name')){
+                        $("#lessors_name_box").show()
+                    }else {
+                        $("#lessors_name_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#tenant_user_box").show()
+                } else {
+                    if ($check_field('add', 'tenant_user')){
+                        $("#tenant_user_box").show()
+                    }else {
+                        $("#tenant_user_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#remarks_box").show()
+                } else {
+                    if ($check_field('add', 'remarks')){
+                        $("#remarks_box").show()
+                    }else {
+                        $("#remarks_box").hide()
+                    }
+                }
+                            if (user_group === '管理员') {
+                    $("#date_of_viewing_box").show()
+                } else {
+                    if ($check_field('add', 'date_of_viewing')){
+                        $("#date_of_viewing_box").show()
+                    }else {
+                        $("#date_of_viewing_box").hide()
+                    }
+                }
+            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+            
+                                                                                                                                                                                                                                                                                                                                                                        
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                                                // 日期选择
+                    laydate.render({
+                        elem: '#date_of_viewing'
+                        , format: 'yyyy-MM-dd'
+                        , done: function (value) {
+                            form_data2.date_of_viewing = value + ' 00:00:00'
+                        }
+                    });
+                
+                                            
+            
+                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                    async function rental_user() {
+                        var rental_user = document.querySelector("#rental_user")
+                        var op1 = document.createElement("option");
+                        op1.value = '0'
+                            rental_user.appendChild(op1)
+                        // 收集数据 长度
+                        var count
+                        // 收集数据 数组
+                        var arr = []
+                        $.ajax({
+                            url: BaseUrl + '/api/user/get_list?user_group=出租用户',
+                            type: 'GET',
+                            contentType: 'application/json; charset=UTF-8',
+                            async: false,
+                            dataType: 'json',
+                            success: function (response) {
+                                count = response.result.count
+                                arr = response.result.list
+                            }
+                        })
+                        for (var i = 0; i < arr.length; i++) {
+                            var op = document.createElement("option");
+                            // 给节点赋值
+                            op.innerHTML = arr[i].username + "--" + arr[i].nickname
+                            op.value = arr[i].user_id
+                            // 新增/Add节点
+                                rental_user.appendChild(op)
+                            layui.form.render("select");
+                        }
+                    }
+
+                    layui.form.on('select(rental_user)', function (data) {
+                        form_data2.rental_user = Number(data.elem[data.elem.selectedIndex].value);
+                    })
+                        rental_user()
+                                                            
+                                                            
+                                    async function tenant_user() {
+                        var tenant_user = document.querySelector("#tenant_user")
+                        var op1 = document.createElement("option");
+                        op1.value = '0'
+                            tenant_user.appendChild(op1)
+                        // 收集数据 长度
+                        var count
+                        // 收集数据 数组
+                        var arr = []
+                        $.ajax({
+                            url: BaseUrl + '/api/user/get_list?user_group=承租用户',
+                            type: 'GET',
+                            contentType: 'application/json; charset=UTF-8',
+                            async: false,
+                            dataType: 'json',
+                            success: function (response) {
+                                count = response.result.count
+                                arr = response.result.list
+                            }
+                        })
+                        for (var i = 0; i < arr.length; i++) {
+                            var op = document.createElement("option");
+                            // 给节点赋值
+                            op.innerHTML = arr[i].username + "--" + arr[i].nickname
+                            op.value = arr[i].user_id
+                            // 新增/Add节点
+                                tenant_user.appendChild(op)
+                            layui.form.render("select");
+                        }
+                    }
+
+                    layui.form.on('select(tenant_user)', function (data) {
+                        form_data2.tenant_user = Number(data.elem[data.elem.selectedIndex].value);
+                    })
+                        tenant_user()
+                                                            
+                                                            
+                                                        layui.form.on('select(examine_state)', function (data) {
+                    form_data2.examine_state = data.elem[data.elem.selectedIndex].text;
+                })
+                if(user_group === '管理员' || (form_data2['examine_state'] && $check_examine()) || (!form_data2['examine_state'] && $check_examine())){
+                    console.log(111)
+                }else {
+                    $("#examine_state").attr("disabled", "disabled");
+                }
+                                        if(user_group === '管理员' || (form_data2['examine_reply'] && $check_examine()) || (!form_data2['examine_reply'] && $check_examine())){
+                    console.log(111)
+                }else {
+                    $("#examine_reply").attr("disabled", "disabled");
+                }
+                
+                                                //文本
+                    let house_no = document.querySelector("#house_no")
+                        house_no.onkeyup = function (event) {
+                        form_data2.house_no = event.target.value
+                    }
+                    //文本
+                                                                                                                //文本
+                    let house_name = document.querySelector("#house_name")
+                        house_name.onkeyup = function (event) {
+                        form_data2.house_name = event.target.value
+                    }
+                    //文本
+                                                                                                                                //数字
+                    let deposit = document.querySelector("#deposit")
+                        deposit.onkeyup = function (event) {
+                        form_data2.deposit = Number(event.target.value)
+                    }
+                    //数字
+                                                                                                                //数字
+                    let rent = document.querySelector("#rent")
+                        rent.onkeyup = function (event) {
+                        form_data2.rent = Number(event.target.value)
+                    }
+                    //数字
+                                                                                                //文本
+                    let hall = document.querySelector("#hall")
+                        hall.onkeyup = function (event) {
+                        form_data2.hall = event.target.value
+                    }
+                    //文本
+                                                                                                                //文本
+                    let detailed_address = document.querySelector("#detailed_address")
+                        detailed_address.onkeyup = function (event) {
+                        form_data2.detailed_address = event.target.value
+                    }
+                    //文本
+                                                                                                                                                                                            //文本
+                    let lessors_name = document.querySelector("#lessors_name")
+                        lessors_name.onkeyup = function (event) {
+                        form_data2.lessors_name = event.target.value
+                    }
+                    //文本
+                                                                                                                                                                                            //文本
+                    let remarks = document.querySelector("#remarks")
+                        remarks.onkeyup = function (event) {
+                        form_data2.remarks = event.target.value
+                    }
+                    //文本
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        var data = sessionStorage.data || ''
+            if (data !== '') {
+                var data2 = JSON.parse(data)
+                Object.keys(form_data2).forEach(key => {
+                    Object.keys(data2).forEach(dbKey => {
+                        if (key === dbKey) {
+                            $('#' + key).val(data2[key])
+                            form_data2[key] = data2[key]
+                            $('#' + key).attr('disabled', 'disabled')
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                                                                for (let key in form_data2) {
+                                        if (key == 'rental_user') {
+                                            let alls = document.querySelector('#rental_user').querySelectorAll('option')
+                                            let test = form_data2[key]
+                                            for (let i = 0; i < alls.length; i++) {
+                                                layui.form.render("select");
+                                                if (alls[i].value == test) {
+                                                    alls[i].selected = true
+                                                    form_data2.rental_user = alls[i].value
+                                                    layui.form.render("select");
+                                                }
+                                            }
+                                        }
+                                    }
+                                
+                                                            
+                                                                                                for (let key in form_data2) {
+                                        if (key == 'tenant_user') {
+                                            let alls = document.querySelector('#tenant_user').querySelectorAll('option')
+                                            let test = form_data2[key]
+                                            for (let i = 0; i < alls.length; i++) {
+                                                layui.form.render("select");
+                                                if (alls[i].value == test) {
+                                                    alls[i].selected = true
+                                                    form_data2.tenant_user = alls[i].value
+                                                    layui.form.render("select");
+                                                }
+                                            }
+                                        }
+                                    }
+                                
+                                                            
+                                                            
+                                                    }
+                    })
+                })
+                sessionStorage.removeItem("data");
+            }
+                                                                                                                                                                                                                                                                                                                                                        async function axios_get_4() {
+                            if(user_group !='管理员'){
+                                const {data: rese} = await axios.get(BaseUrl + '/api/user/get_list?user_group=' + user_group)
+                                let data = rese.result.list
+
+                                const {data: ress} = await axios.get(BaseUrl + '/api/user_group/get_obj?name=' + user_group)
+                                const {data: res} = await axios.get(BaseUrl + '/api/' + ress.result.obj.source_table + '/get_obj?user_id=' + use_id)
+                                Object.keys(form_data2).forEach(key => {
+                                    Object.keys(res.result.obj).forEach(dbKey => {
+                                        if (key === dbKey) {
+                                            $('#' + key).val(res.result.obj[key])
+                                            $('#' + key).attr('disabled', 'disabled')
+                                        }
+                                    })
+                                })
+
+                                for (let key in res.result.obj) {
+                                    if (key == 'user_id') {
+                                        let alls = document.querySelector('#tenant_user').querySelectorAll('option')
+                                        let test = res.result.obj.user_id
+                                        for (let i = 0; i < alls.length; i++) {
+                                            if (alls[i].value == test) {
+                                                alls[i].selected = true
+                                                $('#tenant_user').attr('disabled', 'disabled')
+                                                form_data2.tenant_user = alls[i].value
+                                                layui.form.render("select");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        axios_get_4()
+                                                                                                        
+
+            if (housing_application_id !== '') {
+                async function axios_get_3() {
+                    const {data: rese} = await axios.get(BaseUrl + '/api/housing_application/get_obj', {
+                        params: {
+                                housing_application_id: housing_application_id
+                        }, headers: {
+                            'x-auth-token': token
+                        }
+                    })
+
+                    let data = rese.result.obj
+                    Object.keys(form_data2).forEach((key) => {
+                        form_data2[key] = data[key];
+                        $("#"+key).val(form_data2[key])
+                    });
+
+                    
+
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                                        for (let key in data) {
+                                if (key == 'rental_user') {
+                                    let alls = document.querySelector('#rental_user').querySelectorAll('option')
+                                    let test = data[key]
+                                    for (let i = 0; i < alls.length; i++) {
+                                        layui.form.render("select");
+                                        if (alls[i].value == test) {
+                                            alls[i].selected = true
+                                            form_data2.rental_user = alls[i].value
+                                            layui.form.render("select");
+                                        }
+                                    }
+                                }
+                            }
+                        
+                                            
+                                                                        for (let key in data) {
+                                if (key == 'tenant_user') {
+                                    let alls = document.querySelector('#tenant_user').querySelectorAll('option')
+                                    let test = data[key]
+                                    for (let i = 0; i < alls.length; i++) {
+                                        layui.form.render("select");
+                                        if (alls[i].value == test) {
+                                            alls[i].selected = true
+                                            form_data2.tenant_user = alls[i].value
+                                            layui.form.render("select");
+                                        }
+                                    }
+                                }
+                            }
+                        
+                                            
+                                            
+                    
+                                            if (user_group === '管理员') {
+                            $("#house_no_box").show()
+                        } else {
+                            if ($check_field('set', 'house_no') || $check_field('get', 'house_no')){
+                                $("#house_no_box").show()
+                            }else {
+                                $("#house_no_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#house_name_box").show()
+                        } else {
+                            if ($check_field('set', 'house_name') || $check_field('get', 'house_name')){
+                                $("#house_name_box").show()
+                            }else {
+                                $("#house_name_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#deposit_box").show()
+                        } else {
+                            if ($check_field('set', 'deposit') || $check_field('get', 'deposit')){
+                                $("#deposit_box").show()
+                            }else {
+                                $("#deposit_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#rent_box").show()
+                        } else {
+                            if ($check_field('set', 'rent') || $check_field('get', 'rent')){
+                                $("#rent_box").show()
+                            }else {
+                                $("#rent_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#hall_box").show()
+                        } else {
+                            if ($check_field('set', 'hall') || $check_field('get', 'hall')){
+                                $("#hall_box").show()
+                            }else {
+                                $("#hall_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#detailed_address_box").show()
+                        } else {
+                            if ($check_field('set', 'detailed_address') || $check_field('get', 'detailed_address')){
+                                $("#detailed_address_box").show()
+                            }else {
+                                $("#detailed_address_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#rental_user_box").show()
+                        } else {
+                            if ($check_field('set', 'rental_user') || $check_field('get', 'rental_user')){
+                                $("#rental_user_box").show()
+                            }else {
+                                $("#rental_user_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#lessors_name_box").show()
+                        } else {
+                            if ($check_field('set', 'lessors_name') || $check_field('get', 'lessors_name')){
+                                $("#lessors_name_box").show()
+                            }else {
+                                $("#lessors_name_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#tenant_user_box").show()
+                        } else {
+                            if ($check_field('set', 'tenant_user') || $check_field('get', 'tenant_user')){
+                                $("#tenant_user_box").show()
+                            }else {
+                                $("#tenant_user_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#remarks_box").show()
+                        } else {
+                            if ($check_field('set', 'remarks') || $check_field('get', 'remarks')){
+                                $("#remarks_box").show()
+                            }else {
+                                $("#remarks_box").hide()
+                            }
+                        }
+                                            if (user_group === '管理员') {
+                            $("#date_of_viewing_box").show()
+                        } else {
+                            if ($check_field('set', 'date_of_viewing') || $check_field('get', 'date_of_viewing')){
+                                $("#date_of_viewing_box").show()
+                            }else {
+                                $("#date_of_viewing_box").hide()
+                            }
+                        }
+                    
+                    // Array.prototype.slice.call(document.getElementsByTagName('input')).map(i => i.disabled = true)
+                    // Array.prototype.slice.call(document.getElementsByTagName('select')).map(i => i.disabled = true)
+                    // Array.prototype.slice.call(document.getElementsByTagName('textarea')).map(i => i.disabled = true)
+                                                                        //文本
+                                house_no.value = form_data2.house_no
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'house_no')) || (!form_data2['housing_application_id'] && $check_field('add', 'house_no'))) {
+                            }else {
+                                $("#house_no").attr("disabled", true);
+                                $("#house_no > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                house_name.value = form_data2.house_name
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'house_name')) || (!form_data2['housing_application_id'] && $check_field('add', 'house_name'))) {
+                            }else {
+                                $("#house_name").attr("disabled", true);
+                                $("#house_name > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                        //数字
+                                deposit.value = form_data2.deposit
+                            //数字
+                                                
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'deposit')) || (!form_data2['housing_application_id'] && $check_field('add', 'deposit'))) {
+                            }else {
+                                $("#deposit").attr("disabled", true);
+                                $("#deposit > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                        //数字
+                                rent.value = form_data2.rent
+                            //数字
+                                                
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'rent')) || (!form_data2['housing_application_id'] && $check_field('add', 'rent'))) {
+                            }else {
+                                $("#rent").attr("disabled", true);
+                                $("#rent > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                hall.value = form_data2.hall
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'hall')) || (!form_data2['housing_application_id'] && $check_field('add', 'hall'))) {
+                            }else {
+                                $("#hall").attr("disabled", true);
+                                $("#hall > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                detailed_address.value = form_data2.detailed_address
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'detailed_address')) || (!form_data2['housing_application_id'] && $check_field('add', 'detailed_address'))) {
+                            }else {
+                                $("#detailed_address").attr("disabled", true);
+                                $("#detailed_address > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'rental_user')) || (!form_data2['housing_application_id'] && $check_field('add', 'rental_user'))) {
+                            }else {
+                                $("#rental_user").attr("disabled", true);
+                                $("#rental_user > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                lessors_name.value = form_data2.lessors_name
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'lessors_name')) || (!form_data2['housing_application_id'] && $check_field('add', 'lessors_name'))) {
+                            }else {
+                                $("#lessors_name").attr("disabled", true);
+                                $("#lessors_name > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'tenant_user')) || (!form_data2['housing_application_id'] && $check_field('add', 'tenant_user'))) {
+                            }else {
+                                $("#tenant_user").attr("disabled", true);
+                                $("#tenant_user > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                //文本
+                                remarks.value = form_data2.remarks
+                            //文本
+                                                                        
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'remarks')) || (!form_data2['housing_application_id'] && $check_field('add', 'remarks'))) {
+                            }else {
+                                $("#remarks").attr("disabled", true);
+                                $("#remarks > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                    
+                                                    if (user_group === '管理员' || (form_data2['housing_application_id'] && $check_field('set', 'date_of_viewing')) || (!form_data2['housing_application_id'] && $check_field('add', 'date_of_viewing'))) {
+                            }else {
+                                $("#date_of_viewing").attr("disabled", true);
+                                $("#date_of_viewing > input[name='file']").attr('disabled', true);
+                            }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            date_of_viewing.value = layui.util.toDateString(form_data2.date_of_viewing, "yyyy-MM-dd")
+                                                                                            layui.form.render("select");
+                }
+                axios_get_3()
+            }
+
+            submit.onclick = async function () {
+                try {
+                                                                                                                                                    //文本
+                            form_data2.house_no = house_no.value
+                            //文本
+                                                                                                                                                                        //文本
+                            form_data2.house_name = house_name.value
+                            //文本
+                                                                                                                                                                        //数字
+                            form_data2.deposit = Number(deposit.value)
+                            //数字
+                                                                                                                                                                            //数字
+                            form_data2.rent = Number(rent.value)
+                            //数字
+                                                                                                                                                                            //文本
+                            form_data2.hall = hall.value
+                            //文本
+                                                                                                                                                                        //文本
+                            form_data2.detailed_address = detailed_address.value
+                            //文本
+                                                                                                                                                                                                                                                                                                                            //文本
+                            form_data2.lessors_name = lessors_name.value
+                            //文本
+                                                                                                                                                                                                                                                                                                                            //文本
+                            form_data2.remarks = remarks.value
+                            //文本
+                                                                                                                            form_data2.date_of_viewing = layui.util.toDateString(form_data2.date_of_viewing, "yyyy-MM-dd")
+                                                                                                                } catch (err) {
+                    console.log(err)
+                }
+                                    let examine_reply = document.querySelector("#examine_reply")
+                    form_data2.examine_reply = examine_reply.value
+                                                
+                                                
+                let customize_field = []
+                                                            customize_field.push({"field_name": "房屋编号", "field_value": form_data2.house_no});
+                                                                                customize_field.push({"field_name": "房屋名称", "field_value": form_data2.house_name});
+                                                                                customize_field.push({"field_name": "押金", "field_value": form_data2.deposit});
+                                                                                customize_field.push({"field_name": "租金", "field_value": form_data2.rent});
+                                                                                customize_field.push({"field_name": "厅室", "field_value": form_data2.hall});
+                                                                                customize_field.push({"field_name": "详细地址", "field_value": form_data2.detailed_address});
+                                                                                customize_field.push({"field_name": "出租用户", "field_value": form_data2.rental_user});
+                                                                                customize_field.push({"field_name": "出租人名", "field_value": form_data2.lessors_name});
+                                                                                customize_field.push({"field_name": "租客用户", "field_value": form_data2.tenant_user});
+                                                                                customize_field.push({"field_name": "看房备注", "field_value": form_data2.remarks});
+                                                                                customize_field.push({
+                            "field_name": "看房日期",
+                            "field_value": form_data2.date_of_viewing,
+                            "type": "date"
+                        });
+                                    
+                
+                if (housing_application_id == '') {
+                                        console.log("新增/Add")
+                    const {data: res} = await axios.post(BaseUrl + '/api/housing_application/add?',
+                            form_data2, {
+                                headers: {
+                                    'x-auth-token': token,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                                        if (res.result == 1) {
+                        layer.msg('确认/Confirm完毕');
+                        setTimeout(function () {
+                            window.location.replace("./table.html");
+                        }, 1000)
+                    }else {
+              layer.msg(res.error.message);
+            }
+                                    } else {
+                                        console.log("详情/Details")
+                    
+                    const {data: res} = await axios.post(BaseUrl + '/api/housing_application/set?housing_application_id=' + housing_application_id,
+                            form_data2, {
+                                headers: {
+                                    'x-auth-token': token,
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                    if (res.result == 1) {
+                        layer.msg('确认/Confirm完毕');
+                        setTimeout(function () {
+                            window.location.replace("./table.html");
+                        }, 1000)
+                    }else {
+              layer.msg(res.error.message);
+            }
+                }
+            }
+        
+    })
+    ;
+</script>
+
+</html>
